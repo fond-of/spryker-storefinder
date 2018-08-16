@@ -1,12 +1,11 @@
 <?php
 
-namespace Pyz\Yves\Storefinder;
+namespace FondOfSpryker\Yves\Storefinder;
 
 use Spryker\Yves\Kernel\AbstractFactory;
 
 class StorefinderFactory extends AbstractFactory
 {
 
-    //TODO
 
 }

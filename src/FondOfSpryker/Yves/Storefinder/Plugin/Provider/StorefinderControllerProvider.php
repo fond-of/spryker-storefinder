@@ -1,13 +1,12 @@
 <?php
 
-namespace Pyz\Yves\Storefinder\Plugin\Provider;
+namespace FondOfSpryker\Yves\Storefinder\Plugin\Provider;
 
-use Pyz\Yves\Application\Plugin\Provider\AbstractYvesControllerProvider;
 use Silex\Application;
+use SprykerShop\Yves\ShopApplication\Plugin\Provider\AbstractYvesControllerProvider;
 
 class StorefinderControllerProvider extends AbstractYvesControllerProvider
 {
-
     const STOREFINDER_INDEX = 'storefinder-index';
 
     /**
@@ -17,7 +16,17 @@ class StorefinderControllerProvider extends AbstractYvesControllerProvider
      */
     protected function defineControllers(Application $app)
     {
-        $this->createGetController('/storefinder', static::STOREFINDER_INDEX, 'Storefinder', 'Index', 'index');
+        $this->addStorefinderRoute();
     }
 
+    /**
+     * @return void
+     */
+    protected function addStorefinderRoute(): void
+    {
+        $this->createController('/{storefinder}', self::STOREFINDER_INDEX, 'Storefinder', 'Index')
+            ->method('GET')
+            ->assert('storefinder', $this->getAllowedLocalesPattern(). 'storefinder|storefinder')
+            ->value('storefinder', '');
+    }
 }

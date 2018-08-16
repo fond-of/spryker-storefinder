@@ -1,6 +1,6 @@
 <?php
 
-namespace Pyz\Yves\Storefinder\Controller;
+namespace FondOfSpryker\Yves\Storefinder\Controller;
 
 use Spryker\Yves\Kernel\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,6 +18,7 @@ class IndexController extends AbstractController
      */
     public function indexAction(Request $request)
     {
+  
         return [];
     }
 
