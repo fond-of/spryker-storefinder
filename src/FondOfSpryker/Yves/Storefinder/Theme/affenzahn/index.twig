@@ -1,0 +1,115 @@
+{% extends template('page-layout-main') %}
+
+{% block headTitle %}
+ {{ 'Händlersuche' | trans }}
+{% endblock %}
+
+{% block content %}
+    <div class="storefinder">
+        <div class="storefinder-map-container">
+            <div class="container">
+                <div class="storefinder-filter col-sm-3">
+                    <h3>{{ 'Store locator' | trans }}</h3>
+                    <p>{{ 'Find your nearest retailer!' | trans }}</p>
+
+                    <form id="storefinder-filter-form^" class="storefinder-filter-form" action="" method="get">
+                        <ul class="fields">
+                            <li class="field country-input">
+                                <div class="input-box">
+                                    <select data-placeholder="{{ 'Country' | trans }}" id="storefinder-filter-form-input-country storefinder-country" name="country" title="{{ 'Country' | trans }}">
+                                        <option value="">{{ 'Find your nearest retailer!' | trans }}</option>
+                                        <option value="all">{{ 'All' | trans }}</option>
+                                        {% for countryCode,countryName in countries %}
+                                            <option value="{{ countryCode }}"{% if selectedCountry == countryCode %} selected="selected"{% endif %}>{{ countryName }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </li>
+
+                            <li class="field address-input">
+                                <div class="input-container">
+                                    <input type="text"
+                                           placeholder="{{ 'Enter your city or postcode' | trans }}"
+                                           id="storefinder-filter-form-input-address"
+                                           class="input-text input form-control"
+                                           value="{{ selectedZipCode }}"
+                                           title="{{ 'Address' | trans }}"
+                                           name="address">
+                                </div>
+                            </li>
+
+                            <li>
+                                <button title="{{ 'Suchen' | trans }}" type="submit" class="storefinder-filter-form-button">
+                                    <span>{{ 'Search now' | trans }}</span>
+                                </button>
+                            </li>
+                        </ul>
+                    </form>
+
+                </div>
+            </div>
+            <div id="storefinder-map" class="storefinder-map" data-zoomlevel="2"></div>
+        </div>
+
+        <div id="search-list">
+            <h2>
+                {{ 'Stores' | trans }}
+            </h2>
+
+            {% set queryPageDivider = '?' %}
+            {% if searchQuery %}
+                {% set queryPageDivider = '&' %}
+            {% endif %}
+
+            {% if customerAddresses %}
+                <div class="list">
+                    <ul>
+                        {% for customerAddress in customerAddresses %}
+                            <li class="search-list-item">
+                                <a href="/{{ data.locale }}/storefinder/{{ customerAddress.urlKey }}{{ searchQuery }}{{ queryPageDivider }}p={{ currentPageNumber }}">
+                                    {{ customerAddress.name }}
+                                </a>
+                                <div class="search-list-item--info">
+                                    <p>{{ customerAddress.street }}</p>
+                                    <p>{{ customerAddress.zipCode }} {{ customerAddress.city }}</p>
+                                    <a class="store--route" target="_blank" href="http://maps.google.com/?q={{ customerAddress.latitude }},{{ customerAddress.longitude }}">
+                                        {{ 'Route' | trans }}
+                                    </a>
+                                </div>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+
+                {% if numberOfPages > 1 %}
+                    <div class="pager">
+                        <div class="row">
+                            <div class="text-center paginationWrapper">
+                                <ul class="pagination">
+                                    {% for pageNumber in range(1, numberOfPages) %}
+                                        {% if currentPageNumber == pageNumber %}
+                                            <li class="active">
+                                                <a href="#">
+                                                    {{ pageNumber }}
+                                                </a>
+                                            </li>
+                                        {% else %}
+                                            <li>
+                                                <a href="/{{ data.locale }}/storefinder{{ searchQuery }}{{ queryPageDivider }}p={{ pageNumber }}">
+                                                    {{ pageNumber }}
+                                                </a>
+                                            </li>
+                                        {% endif %}
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+
+            {% else %}
+                {{ 'Unfortunately we have not found stores for the specified search filter' | trans }}
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,14 @@
+<div>
+    <p class="marker-title">
+        {{ name }}
+    </p>
+    <p>
+        {{ street }}<br/>
+        {{ zipCode }} {{ city }}
+    </p>
+    <p>
+        <a href="/{{ app.locale | slice(0, 2) }}/storefinder/{{ urlKey }}">
+            {{ 'Details' | trans }}
+        </a>
+    </p>
+</div>

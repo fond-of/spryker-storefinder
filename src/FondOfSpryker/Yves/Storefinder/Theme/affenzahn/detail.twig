@@ -1,0 +1,107 @@
+{% extends template('page-layout-main') %}
+
+{% block headTitle %}
+    {{ customerAddress.name }}
+{% endblock %}
+
+{% block content %}
+    <div class="storefinder-store-view">
+        <div id="storefinder-map"
+             class="storefinder-map"
+             data-storeid ="{{ customerAddress.storeId }}"
+             data-latitude = "{{ customerAddress.latitude }}"
+             data-longitude = "{{ customerAddress.longitude }}"
+             data-zoomlevel = "14">
+        </div>
+
+        <div class="container center">
+            <h1>
+                {{ customerAddress.name }}
+            </h1>
+
+            <div class="store--content">
+                <div class="address">
+                    <span>
+                        {{ customerAddress.street }}<br/>
+                        {{ customerAddress.zipCode }} {{ customerAddress.city }}<br/>
+                        {% set countryCodeTranslationKey = 'countries.iso.' ~ customerAddress.countryCode %}
+                        {{ countryCodeTranslationKey | trans }}<br/>
+                    </span>
+
+                    <div class="address-contact">
+                        <div class="address-contact-buttons">
+                            {% if customerAddress.phone %}
+                                <a class="storefinder-address-contact-button" href="#" data-value="phone">
+                                    <span>
+                                        {{ 'Telephone' | trans}}
+                                    </span>
+                                </a>
+                            {% endif %}
+
+                            {% if customerAddress.mail %}
+                                <a class="storefinder-address-contact-button" href="#" data-value="email">
+                                    <span>
+                                         {{ 'E-Mail' | trans}}
+                                     </span>
+                                </a>
+                            {% endif %}
+
+                            {% if customerAddress.website %}
+                                <a class="storefinder-address-contact-button" href="#" data-value="website">
+                                    <span>
+                                         {{ 'Website' | trans}}
+                                     </span>
+                                </a>
+                            {% endif %}
+
+                            <a class="storefinder-address-contact-button" target="_blank" href="http://maps.google.com/?q={{ customerAddress.latitude }},{{ customerAddress.longitude }}">
+                                <span>
+                                     {{ 'Route' | trans}}
+                                </span>
+                            </a>
+                        </div>
+
+                        <div class="address-contact-items">
+                            {% if customerAddress.phone %}
+                                <div class="item phone">
+                                    <span>
+                                        {{ 'Telephone' | trans}}:
+                                    </span>
+                                    <a href="tel:{{ customerAddress.phone }}">
+                                        {{ customerAddress.phone }}
+                                    </a>
+                                </div>
+                            {% endif %}
+
+                            {% if customerAddress.mail %}
+                                <div class="item email">
+                                    <span>
+                                        {{ 'E-Mail' | trans}}:
+                                    </span>
+                                    <a href="mailto:{{ customerAddress.mail }}">
+                                        {{ customerAddress.mail }}
+                                    </a>
+                                </div>
+                            {% endif %}
+
+                            {% if customerAddress.website %}
+                                <div class="item website">
+                                    <span>
+                                        {{ 'Website' | trans}}:
+                                    </span>
+                                    <a href="{{ customerAddress.website }}" target="_blank" rel="nofolow">
+                                        {{ customerAddress.website }}
+                                    </a>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <a href="{{ backUrl }}">
+                {{ 'Back' | trans }}
+            </a>
+        </div>
+    </div>
+{% endblock %}
