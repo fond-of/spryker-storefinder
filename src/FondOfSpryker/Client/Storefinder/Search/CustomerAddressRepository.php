@@ -13,7 +13,7 @@ use Generated\Shared\Transfer\StorefinderSearchResponseTransfer;
 class CustomerAddressRepository
 {
     /**
-     * @var Elasticsearch/Client
+     * @var \Elasticsearch\Client
      */
     protected $client;
 
@@ -94,14 +94,13 @@ class CustomerAddressRepository
                     'must' => [
                         ['match' => ['custaddr_url_key' => $urlKey]],
                         ['match' => ['brands' => $this->getBrand()]],
-                    ]
+                    ],
                 ],
             ],
         ];
 
         $elasticsearchResponse = $this->getClient()->search($params);
         $searchResponseTransfer = $this->getResponseToTransferMapper()->mapResponseToTransfer($elasticsearchResponse);
-
 
         $result = $searchResponseTransfer->getResult();
         $resultCount = $searchResponseTransfer->getResultCount();
@@ -128,12 +127,12 @@ class CustomerAddressRepository
                 'bool' => [
                     'must' => [
                         ['match' => ['brands' => $this->getBrand()]],
-                    ]
+                    ],
                 ],
             ],
         ];
 
-        if (! empty($requestTransfer->getCountryCode()) && ! empty($requestTransfer->getAddress())) {
+        if (!empty($requestTransfer->getCountryCode()) && !empty($requestTransfer->getAddress())) {
             $geometryResponse = $this->findLatitudeAndLongitudeBy($requestTransfer);
 
             if ($geometryResponse !== null) {
@@ -143,9 +142,9 @@ class CustomerAddressRepository
                         'distance' => '50km',
                         'fob_location' => [
                             'lat' => $geometryResponse->getLatitude(),
-                            'lon' => $geometryResponse->getLongitude()
-                        ]
-                    ]
+                            'lon' => $geometryResponse->getLongitude(),
+                        ],
+                    ],
                 ];
 
                 // sort radial by lat/lng if given
@@ -153,15 +152,14 @@ class CustomerAddressRepository
                     '_geo_distance' => [
                         'fob_location' => [
                             'lat' => $geometryResponse->getLatitude(),
-                            'lon' => $geometryResponse->getLongitude()
+                            'lon' => $geometryResponse->getLongitude(),
                         ],
                         'order' => 'asc',
-                        'unit' => 'km'
-                    ]
+                        'unit' => 'km',
+                    ],
                 ];
             }
-
-        } else if ($requestTransfer->getCountryCode() !== null) {
+        } elseif ($requestTransfer->getCountryCode() !== null) {
             // filter by country_id
             $params['body']['query']['bool']['must'][]['match']['country_id'] = $requestTransfer->getCountryCode();
         }
@@ -170,8 +168,8 @@ class CustomerAddressRepository
         if (array_key_exists('sort', $params['body']) === false) {
             $params['body']['sort'] = [
                 'postcode' => [
-                    'order' => 'asc'
-                ]
+                    'order' => 'asc',
+                ],
             ];
         }
 
@@ -179,11 +177,13 @@ class CustomerAddressRepository
         if (is_int($requestTransfer->getLimit())) {
             $params['size'] = $requestTransfer->getLimit();
         } else {
-            $params['size'] = $this->getClient()->count($params);
+            $params['size'] = $this->getClient()->count($params)['count'];
         }
 
         if (is_int($requestTransfer->getLimitStart())) {
             $params['from'] = $requestTransfer->getLimitStart();
+        } else {
+            $params['from'] = 0;
         }
 
         $elasticsearchResponse = $this->getClient()->search($params);

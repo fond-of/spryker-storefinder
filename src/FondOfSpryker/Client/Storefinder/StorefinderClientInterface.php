@@ -16,7 +16,7 @@ interface StorefinderClientInterface
     public function search(StorefinderSearchRequestTransfer $requestTransfer): StorefinderSearchResponseTransfer;
 
     /**
-     * @param \Generated\Shared\Transfer\StorefinderSearchRequestTransfer $requestTransfer
+     * @param string $urlKey
      *
      * @return null|\Generated\Shared\Transfer\StorefinderSearchResponseTransfer
      */

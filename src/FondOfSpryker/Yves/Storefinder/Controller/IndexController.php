@@ -2,17 +2,14 @@
 
 namespace FondOfSpryker\Yves\Storefinder\Controller;
 
-use Generated\Shared\DataBuilder\StorefinderCustomerAddressBuilder;
+use Collator;
 use Generated\Shared\Transfer\StorefinderCustomerAddressTransfer;
 use Generated\Shared\Transfer\StorefinderSearchRequestTransfer;
-use Generated\Shared\Transfer\StorefinderSearchResponseTransfer;
-use Spryker\Shared\Config\Config;
 use Spryker\Yves\Kernel\Controller\AbstractController;
 use SprykerShop\Yves\ShopRouter\Generator\UrlGenerator;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 
 /**
  * @method \FondOfSpryker\Yves\Storefinder\StorefinderFactory getFactory()
@@ -23,7 +20,7 @@ class IndexController extends AbstractController
     /**
      * @param \Symfony\Component\HttpFoundation\Request $request
      *
-     * @return array|\Symfony\Component\HttpFoundation\RedirectResponse
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function indexAction(Request $request)
     {
@@ -59,7 +56,7 @@ class IndexController extends AbstractController
 
         $data = [];
         foreach ($storefinderResponseTransfer->getResult() as $storefinderCustomerAddressTransfer) {
-            array_push($data, $this->createMarkerResultRowFor($storefinderCustomerAddressTransfer));
+            array_push($data, $this->createMarkerResultRowFor($storefinderCustomerAddressTransfer, $request));
         }
 
         return new JsonResponse($data);
@@ -68,7 +65,7 @@ class IndexController extends AbstractController
     /**
      * @param \Symfony\Component\HttpFoundation\Request $request
      *
-     * @return string[]|\Symfony\Component\HttpFoundation\RedirectResponse
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function detailAction(Request $request)
     {
@@ -101,30 +98,36 @@ class IndexController extends AbstractController
             return $backUrl;
         }
 
-        return $backUrl . $this->getSearchQuery($request);
+        if ($request->getQueryString() !== '') {
+            $backUrl .= '?' . $request->getQueryString();
+        }
+
+        return $backUrl;
     }
 
     /**
      * @param \Generated\Shared\Transfer\StorefinderCustomerAddressTransfer $storefinderCustomerAddressTransfer
+     * @param \Symfony\Component\HttpFoundation\Request $request
      *
      * @return string[]
      */
-    protected function createMarkerResultRowFor(StorefinderCustomerAddressTransfer $storefinderCustomerAddressTransfer): array
+    protected function createMarkerResultRowFor(StorefinderCustomerAddressTransfer $storefinderCustomerAddressTransfer, Request $request): array
     {
         $row = [];
         $row['longitude'] = $storefinderCustomerAddressTransfer->getLongitude();
         $row['latitude'] = $storefinderCustomerAddressTransfer->getLatitude();
-        $row['content'] = $this->createDetailPopoverContentFor($storefinderCustomerAddressTransfer);
+        $row['content'] = $this->createDetailPopoverContentFor($storefinderCustomerAddressTransfer, $request);
 
         return $row;
     }
 
     /**
      * @param \Generated\Shared\Transfer\StorefinderCustomerAddressTransfer $storefinderCustomerAddressTransfer
+     * @param \Symfony\Component\HttpFoundation\Request $request
      *
      * @return string
      */
-    protected function createDetailPopoverContentFor(StorefinderCustomerAddressTransfer $storefinderCustomerAddressTransfer): string
+    protected function createDetailPopoverContentFor(StorefinderCustomerAddressTransfer $storefinderCustomerAddressTransfer, Request $request): string
     {
         $placeholders = [
             'name' => $storefinderCustomerAddressTransfer->getName(),
@@ -132,6 +135,8 @@ class IndexController extends AbstractController
             'zipCode' => $storefinderCustomerAddressTransfer->getZipCode(),
             'city' => $storefinderCustomerAddressTransfer->getCity(),
             'urlKey' => $storefinderCustomerAddressTransfer->getUrlKey(),
+            'currentLanguage' => $request->get('lang'),
+            'searchQuery' => $this->getSearchQuery($request),
         ];
 
         return $this->renderView('@Storefinder/map-popover.twig', $placeholders)->getContent();
@@ -145,7 +150,7 @@ class IndexController extends AbstractController
     protected function isFromExternalSource(Request $request): bool
     {
         $referer = $request->server->get('HTTP_REFERER');
-        if (! is_string($referer) || $referer == '') {
+        if (!is_string($referer) || $referer == '') {
             return true;
         }
 
@@ -245,37 +250,41 @@ class IndexController extends AbstractController
      */
     protected function getSortedAvailableCountries(): array
     {
+        $glossaryStorageClient = $this->getFactory()->getGlossaryStorageClient();
+        $locale = $this->getLocale();
+
         $countries = [
-            'DE' => 'Germany',
-            'DK' => 'Denmark',
-            'FR' => 'France',
-            'CH' => 'Switzerland',
-            'AT' => 'Austria',
-            'BE' => 'Belgium',
-            'KR' => 'South Korea',
-            'US' => 'United States',
-            'CZ' => 'Czech Republic',
-            'SK' => 'Slovakia',
-            'AE' => 'United Arab Emirates',
-            'SA' => 'Saudi Arabia',
-            'ES' => 'Spain',
-            'LU' => 'Luxembourg',
-            'QA' => 'Qatar',
-            'TR' => 'Turkey',
-            'FI' => 'Finland',
-            'MQ' => 'Martinique',
-            'GL' => 'Greenland',
-            'GP' => 'Guadeloupe',
-            'HR' => 'Croatia',
-            'IT' => 'Italy',
-            'LV' => 'Latvia',
-            'PL' => 'Poland',
-            'RO' => 'Romania',
-            'RU' => 'Russia',
-            'SI' => 'Slovenia',
+            'DE' => $glossaryStorageClient->translate('countries.iso.de', $locale),
+            'DK' => $glossaryStorageClient->translate('countries.iso.dk', $locale),
+            'FR' => $glossaryStorageClient->translate('countries.iso.fr', $locale),
+            'CH' => $glossaryStorageClient->translate('countries.iso.ch', $locale),
+            'AT' => $glossaryStorageClient->translate('countries.iso.at', $locale),
+            'BE' => $glossaryStorageClient->translate('countries.iso.be', $locale),
+            'KR' => $glossaryStorageClient->translate('countries.iso.kr', $locale),
+            'US' => $glossaryStorageClient->translate('countries.iso.us', $locale),
+            'CZ' => $glossaryStorageClient->translate('countries.iso.cz', $locale),
+            'SK' => $glossaryStorageClient->translate('countries.iso.SK', $locale),
+            'AE' => $glossaryStorageClient->translate('countries.iso.AE', $locale),
+            'SA' => $glossaryStorageClient->translate('countries.iso.SA', $locale),
+            'ES' => $glossaryStorageClient->translate('countries.iso.ES', $locale),
+            'LU' => $glossaryStorageClient->translate('countries.iso.LU', $locale),
+            'QA' => $glossaryStorageClient->translate('countries.iso.QA', $locale),
+            'TR' => $glossaryStorageClient->translate('countries.iso.TR', $locale),
+            'FI' => $glossaryStorageClient->translate('countries.iso.FI', $locale),
+            'MQ' => $glossaryStorageClient->translate('countries.iso.MQ', $locale),
+            'GL' => $glossaryStorageClient->translate('countries.iso.GL', $locale),
+            'GP' => $glossaryStorageClient->translate('countries.iso.GP', $locale),
+            'HR' => $glossaryStorageClient->translate('countries.iso.HR', $locale),
+            'IT' => $glossaryStorageClient->translate('countries.iso.IT', $locale),
+            'LV' => $glossaryStorageClient->translate('countries.iso.LV', $locale),
+            'PL' => $glossaryStorageClient->translate('countries.iso.PL', $locale),
+            'RO' => $glossaryStorageClient->translate('countries.iso.RO', $locale),
+            'RU' => $glossaryStorageClient->translate('countries.iso.RU', $locale),
+            'SI' => $glossaryStorageClient->translate('countries.iso.SI', $locale),
         ];
 
-        asort($countries);
+        $collator = new Collator($locale);
+        $collator->asort($countries, Collator::SORT_STRING);
 
         return $countries;
     }

@@ -23,7 +23,7 @@ class StorefinderClient extends AbstractClient implements StorefinderClientInter
     }
 
     /**
-     * @param \Generated\Shared\Transfer\StorefinderSearchRequestTransfer $requestTransfer
+     * @param string $urlKey
      *
      * @return null|\Generated\Shared\Transfer\StorefinderSearchResponseTransfer
      */

@@ -7,8 +7,8 @@
         {{ zipCode }} {{ city }}
     </p>
     <p>
-        <a href="/{{ app.locale | slice(0, 2) }}/storefinder/{{ urlKey }}">
-            {{ 'Details' | trans }}
+        <a href="/{{ currentLanguage }}/storefinder/{{ urlKey }}{{ searchQuery }}">
+            {{ 'storefinder.details' | trans }}
         </a>
     </p>
 </div>

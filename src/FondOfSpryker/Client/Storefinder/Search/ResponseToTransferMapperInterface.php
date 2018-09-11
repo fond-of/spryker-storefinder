@@ -9,7 +9,7 @@ interface ResponseToTransferMapperInterface
     /**
      * @param string[] $elasticsearchResponse
      *
-     * @return \FondOfSpryker\Client\Storefinder\Search\StorefinderSearchResponseTransfer
+     * @return \Generated\Shared\Transfer\StorefinderSearchResponseTransfer
      */
     public function mapResponseToTransfer(array $elasticsearchResponse): StorefinderSearchResponseTransfer;
 }

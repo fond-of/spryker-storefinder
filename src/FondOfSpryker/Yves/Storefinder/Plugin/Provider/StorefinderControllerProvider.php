@@ -31,7 +31,7 @@ class StorefinderControllerProvider extends AbstractYvesControllerProvider
     {
         $this->createController('/{storefinder}', self::STOREFINDER_INDEX, 'Storefinder', 'Index')
             ->method('GET')
-            ->assert('storefinder', $this->getAllowedLocalesPattern(). 'storefinder|storefinder')
+            ->assert('storefinder', $this->getAllowedLocalesPattern() . 'storefinder|storefinder')
             ->value('storefinder', '');
     }
 
@@ -42,7 +42,7 @@ class StorefinderControllerProvider extends AbstractYvesControllerProvider
     {
         $this->createController('/{storefinder}/search', self::STOREFINDER_SEARCH, 'Storefinder', 'Index', 'search')
             ->method('GET')
-            ->assert('storefinder', $this->getAllowedLocalesPattern(). 'storefinder|storefinder')
+            ->assert('storefinder', $this->getAllowedLocalesPattern() . 'storefinder|storefinder')
             ->value('storefinder', '');
     }
 
@@ -53,7 +53,7 @@ class StorefinderControllerProvider extends AbstractYvesControllerProvider
     {
         $this->createController('/{storefinder}/{urlKey}', self::STOREFINDER_DETAIL, 'Storefinder', 'Index', 'detail')
             ->method('GET')
-            ->assert('storefinder', $this->getAllowedLocalesPattern(). 'storefinder|storefinder')
+            ->assert('storefinder', $this->getAllowedLocalesPattern() . 'storefinder|storefinder')
             ->value('storefinder', '');
     }
 }

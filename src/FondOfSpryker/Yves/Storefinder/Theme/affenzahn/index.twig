@@ -1,7 +1,7 @@
 {% extends template('page-layout-main') %}
 
 {% block headTitle %}
- {{ 'Händlersuche' | trans }}
+ {{ 'storefinder.store-locator' | trans }}
 {% endblock %}
 
 {% block content %}
@@ -9,16 +9,15 @@
         <div class="storefinder-map-container">
             <div class="container">
                 <div class="storefinder-filter col-sm-3">
-                    <h3>{{ 'Store locator' | trans }}</h3>
-                    <p>{{ 'Find your nearest retailer!' | trans }}</p>
+                    <h3>{{ 'storefinder.store-locator' | trans }}</h3>
+                    <p>{{ 'storefinder.find-retailer' | trans }}</p>
 
                     <form id="storefinder-filter-form^" class="storefinder-filter-form" action="" method="get">
                         <ul class="fields">
                             <li class="field country-input">
                                 <div class="input-box">
-                                    <select data-placeholder="{{ 'Country' | trans }}" id="storefinder-filter-form-input-country storefinder-country" name="country" title="{{ 'Country' | trans }}">
-                                        <option value="">{{ 'Find your nearest retailer!' | trans }}</option>
-                                        <option value="all">{{ 'All' | trans }}</option>
+                                    <select data-placeholder="{{ 'storefinder.country' | trans }}" id="storefinder-filter-form-input-country storefinder-country" name="country" title="{{ 'storefinder.country' | trans }}">
+                                        <option value="">{{ 'storefinder.find-retailer' | trans }}</option>
                                         {% for countryCode,countryName in countries %}
                                             <option value="{{ countryCode }}"{% if selectedCountry == countryCode %} selected="selected"{% endif %}>{{ countryName }}</option>
                                         {% endfor %}
@@ -29,18 +28,18 @@
                             <li class="field address-input">
                                 <div class="input-container">
                                     <input type="text"
-                                           placeholder="{{ 'Enter your city or postcode' | trans }}"
+                                           placeholder="{{ 'storefinder.enter-city' | trans }}"
                                            id="storefinder-filter-form-input-address"
                                            class="input-text input form-control"
                                            value="{{ selectedZipCode }}"
-                                           title="{{ 'Address' | trans }}"
+                                           title="{{ 'storefinder.address' | trans }}"
                                            name="address">
                                 </div>
                             </li>
 
                             <li>
-                                <button title="{{ 'Suchen' | trans }}" type="submit" class="storefinder-filter-form-button">
-                                    <span>{{ 'Search now' | trans }}</span>
+                                <button title="{{ 'storefinder.search' | trans }}" type="submit" class="storefinder-filter-form-button">
+                                    <span>{{ 'storefinder.search-now' | trans }}</span>
                                 </button>
                             </li>
                         </ul>
@@ -53,7 +52,7 @@
 
         <div id="search-list">
             <h2>
-                {{ 'Stores' | trans }}
+                {{ 'storefinder.stores' | trans }}
             </h2>
 
             {% set queryPageDivider = '?' %}
@@ -61,7 +60,7 @@
                 {% set queryPageDivider = '&' %}
             {% endif %}
 
-            {% if customerAddresses %}
+            {% if customerAddresses|length > 0 %}
                 <div class="list">
                     <ul>
                         {% for customerAddress in customerAddresses %}
@@ -73,7 +72,7 @@
                                     <p>{{ customerAddress.street }}</p>
                                     <p>{{ customerAddress.zipCode }} {{ customerAddress.city }}</p>
                                     <a class="store--route" target="_blank" href="http://maps.google.com/?q={{ customerAddress.latitude }},{{ customerAddress.longitude }}">
-                                        {{ 'Route' | trans }}
+                                        {{ 'storefinder.route' | trans }}
                                     </a>
                                 </div>
                             </li>
@@ -81,34 +80,33 @@
                     </ul>
                 </div>
 
-                {% if numberOfPages > 1 %}
-                    <div class="pager">
-                        <div class="row">
-                            <div class="text-center paginationWrapper">
-                                <ul class="pagination">
-                                    {% for pageNumber in range(1, numberOfPages) %}
-                                        {% if currentPageNumber == pageNumber %}
-                                            <li class="active">
-                                                <a href="#">
-                                                    {{ pageNumber }}
-                                                </a>
-                                            </li>
-                                        {% else %}
-                                            <li>
-                                                <a href="/{{ data.locale }}/storefinder{{ searchQuery }}{{ queryPageDivider }}p={{ pageNumber }}">
-                                                    {{ pageNumber }}
-                                                </a>
-                                            </li>
-                                        {% endif %}
+                {# the number of pages that are displayed around the active page #}
+                {% set nearbyPagesLimit = 3 %}
+
+                <div class="pager">
+                    <div class="row">
+                        <div class="text-center paginationWrapper">
+                            <ul class="pagination">
+                                {% if currentPageNumber > 1 %}
+                                    {% for pageNumber in range(currentPageNumber-nearbyPagesLimit, currentPageNumber-1) if ( pageNumber > 0 ) %}
+                                        <li><a href="/{{ data.locale }}/storefinder{{ searchQuery }}{{ queryPageDivider }}p={{ pageNumber }}">{{ pageNumber }}</a></li>
                                     {% endfor %}
-                                </ul>
-                            </div>
+                                {% endif %}
+
+                                <li class="active"><a href="#">{{ currentPageNumber }}</a></li>
+
+                                {% if currentPageNumber < numberOfPages %}
+                                    {% for pageNumber in range(currentPageNumber+1, currentPageNumber + nearbyPagesLimit) if ( pageNumber <= numberOfPages ) %}
+                                        <li><a href="/{{ data.locale }}/storefinder{{ searchQuery }}{{ queryPageDivider }}p={{ pageNumber }}">{{ pageNumber }}</a></li>
+                                    {% endfor %}
+                                {% endif %}
+                            </ul>
                         </div>
                     </div>
-                {% endif %}
+                </div>
 
-            {% else %}
-                {{ 'Unfortunately we have not found stores for the specified search filter' | trans }}
+            {% else  %}
+                {{ 'storefinder.empty-list' | trans }}
             {% endif %}
         </div>
     </div>

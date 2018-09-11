@@ -108,7 +108,7 @@ class Geometry implements GeometryInterface
     }
 
     /**
-     * @param @param \Psr\Http\Message\ResponseInterface $clientJsonResponse
+     * @param \Psr\Http\Message\ResponseInterface $clientJsonResponse
      *
      * @return \Generated\Shared\Transfer\StorefinderGeometryResponseTransfer
      */

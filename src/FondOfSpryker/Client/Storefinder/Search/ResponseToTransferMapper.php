@@ -2,9 +2,7 @@
 
 namespace FondOfSpryker\Client\Storefinder\Search;
 
-use Elasticsearch\Client;
 use Generated\Shared\Transfer\StorefinderCustomerAddressTransfer;
-use Generated\Shared\Transfer\StorefinderSearchRequestTransfer;
 use Generated\Shared\Transfer\StorefinderSearchResponseTransfer;
 
 class ResponseToTransferMapper implements ResponseToTransferMapperInterface
@@ -28,7 +26,7 @@ class ResponseToTransferMapper implements ResponseToTransferMapperInterface
     /**
      * @param string[] $elasticsearchResponse
      *
-     * @return \FondOfSpryker\Client\Storefinder\Search\StorefinderSearchResponseTransfer
+     * @return \Generated\Shared\Transfer\StorefinderSearchResponseTransfer
      */
     public function mapResponseToTransfer(array $elasticsearchResponse): StorefinderSearchResponseTransfer
     {
@@ -63,7 +61,7 @@ class ResponseToTransferMapper implements ResponseToTransferMapperInterface
      */
     protected function getHits(array $elasticsearchResponse): array
     {
-        return $elasticsearchResponse['hits']['hits'];;
+        return $elasticsearchResponse['hits']['hits'];
     }
 
     /**

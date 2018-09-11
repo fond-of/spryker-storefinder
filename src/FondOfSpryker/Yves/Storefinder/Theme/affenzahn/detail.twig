@@ -33,7 +33,7 @@
                             {% if customerAddress.phone %}
                                 <a class="storefinder-address-contact-button" href="#" data-value="phone">
                                     <span>
-                                        {{ 'Telephone' | trans}}
+                                        {{ 'storefinder.phone' | trans}}
                                     </span>
                                 </a>
                             {% endif %}
@@ -41,7 +41,7 @@
                             {% if customerAddress.mail %}
                                 <a class="storefinder-address-contact-button" href="#" data-value="email">
                                     <span>
-                                         {{ 'E-Mail' | trans}}
+                                         {{ 'storefinder.mail' | trans}}
                                      </span>
                                 </a>
                             {% endif %}
@@ -49,14 +49,14 @@
                             {% if customerAddress.website %}
                                 <a class="storefinder-address-contact-button" href="#" data-value="website">
                                     <span>
-                                         {{ 'Website' | trans}}
+                                         {{ 'storefinder.website' | trans}}
                                      </span>
                                 </a>
                             {% endif %}
 
                             <a class="storefinder-address-contact-button" target="_blank" href="http://maps.google.com/?q={{ customerAddress.latitude }},{{ customerAddress.longitude }}">
                                 <span>
-                                     {{ 'Route' | trans}}
+                                     {{ 'storefinder.route' | trans}}
                                 </span>
                             </a>
                         </div>
@@ -65,7 +65,7 @@
                             {% if customerAddress.phone %}
                                 <div class="item phone">
                                     <span>
-                                        {{ 'Telephone' | trans}}:
+                                        {{ 'storefinder.phone' | trans}}:
                                     </span>
                                     <a href="tel:{{ customerAddress.phone }}">
                                         {{ customerAddress.phone }}
@@ -76,7 +76,7 @@
                             {% if customerAddress.mail %}
                                 <div class="item email">
                                     <span>
-                                        {{ 'E-Mail' | trans}}:
+                                        {{ 'storefinder.mail' | trans}}:
                                     </span>
                                     <a href="mailto:{{ customerAddress.mail }}">
                                         {{ customerAddress.mail }}
@@ -87,9 +87,9 @@
                             {% if customerAddress.website %}
                                 <div class="item website">
                                     <span>
-                                        {{ 'Website' | trans}}:
+                                        {{ 'storefinder.website' | trans}}:
                                     </span>
-                                    <a href="{{ customerAddress.website }}" target="_blank" rel="nofolow">
+                                    <a href="http://{{ customerAddress.website }}" target="_blank" rel="nofolow">
                                         {{ customerAddress.website }}
                                     </a>
                                 </div>
@@ -100,7 +100,7 @@
             </div>
 
             <a href="{{ backUrl }}">
-                {{ 'Back' | trans }}
+                {{ 'storefinder.back' | trans }}
             </a>
         </div>
     </div>

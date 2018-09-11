@@ -4,13 +4,13 @@ namespace FondOfSpryker\Client\Storefinder;
 
 use Elasticsearch\Client;
 use Elasticsearch\ClientBuilder;
+use FondOfSpryker\Client\Storefinder\Geometry\Geometry;
+use FondOfSpryker\Client\Storefinder\Geometry\GeometryInterface;
 use FondOfSpryker\Client\Storefinder\Search\CustomerAddressRepository;
 use FondOfSpryker\Client\Storefinder\Search\ResponseToTransferMapper;
-use Spryker\Client\Kernel\AbstractFactory;
 use FondOfSpryker\Client\Storefinder\Search\ResponseToTransferMapperInterface;
-use FondOfSpryker\Client\Storefinder\Geometry\GeometryInterface;
-use FondOfSpryker\Client\Storefinder\Geometry\Geometry;
 use GuzzleHttp\ClientInterface;
+use Spryker\Client\Kernel\AbstractFactory;
 
 /**
  * @method \FondOfSpryker\Client\Storefinder\StorefinderConfig getConfig()
@@ -50,7 +50,7 @@ class StorefinderFactory extends AbstractFactory
     }
 
     /**
-     * @return \FondOfSpryker\Client\Storefinder\Client
+     * @return \Elasticsearch\Client
      */
     protected function createElasticsearchClient(): Client
     {
