@@ -109,8 +109,12 @@ class ResponseToTransferMapper implements ResponseToTransferMapperInterface
     {
         $customerAddressTransfer = $this->createStorefinderCustomerAddressTransfer();
 
-        $company = $this->getValue('company', $hit);
-        $customerAddressTransfer->setName($company);
+        $name = $this->getValue('storename', $hit);
+        if (!is_string($name) || $name === '') {
+            $name = $this->getValue('company', $hit);
+        }
+
+        $customerAddressTransfer->setName($name);
 
         $zipCode = $this->getValue('postcode', $hit);
         $customerAddressTransfer->setZipCode($zipCode);
