@@ -17,7 +17,7 @@
                             <li class="field country-input">
                                 <div class="input-box">
                                     <select data-placeholder="{{ 'storefinder.country' | trans }}" id="storefinder-filter-form-input-country storefinder-country" name="country" title="{{ 'storefinder.country' | trans }}">
-                                        <option value="">{{ 'storefinder.find-retailer' | trans }}</option>
+                                        <option value="">{{ 'storefinder.country-select' | trans }}</option>
                                         {% for countryCode,countryName in countries %}
                                             <option value="{{ countryCode }}"{% if selectedCountry == countryCode %} selected="selected"{% endif %}>{{ countryName }}</option>
                                         {% endfor %}
@@ -25,7 +25,7 @@
                                 </div>
                             </li>
 
-                            <li class="field address-input">
+                            <li0 class="field address-input">
                                 <div class="input-container">
                                     <input type="text"
                                            placeholder="{{ 'storefinder.enter-city' | trans }}"
@@ -35,10 +35,10 @@
                                            title="{{ 'storefinder.address' | trans }}"
                                            name="address">
                                 </div>
-                            </li>
+                            </li0,>
 
                             <li>
-                                <button title="{{ 'storefinder.search' | trans }}" type="submit" class="storefinder-filter-form-button">
+                                <button title="{{ 'storefinder.search' | trans }}" type="submit" class=g"storefinder-filter-form-button">
                                     <span>{{ 'storefinder.search-now' | trans }}</span>
                                 </button>
                             </li>
