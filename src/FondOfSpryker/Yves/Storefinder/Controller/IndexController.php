@@ -79,7 +79,7 @@ class IndexController extends AbstractController
         $placeholders = [
             'customerAddress' => $customerAddressTransfer,
             'isFromExternalSource' => $this->isFromExternalSource($request),
-            'backUrl' => $this->createBackUrl($request),
+            'queryString' => $this->createQueryString($request),
             'countries' => $this->getSortedAvailableCountries(),
         ];
 
@@ -91,18 +91,13 @@ class IndexController extends AbstractController
      *
      * @return string
      */
-    protected function createBackUrl(Request $request): string
+    protected function createQueryString(Request $request): string
     {
-        $backUrl = '/' . mb_substr($this->getLocale(), 0, 2) . '/storefinder';
-        if ($this->isFromExternalSource($request)) {
-            return $backUrl;
+        if (!$this->isFromExternalSource($request) && $request->getQueryString() !== '') {
+            return '?' . $request->getQueryString();
         }
 
-        if ($request->getQueryString() !== '') {
-            $backUrl .= '?' . $request->getQueryString();
-        }
-
-        return $backUrl;
+        return '';
     }
 
     /**

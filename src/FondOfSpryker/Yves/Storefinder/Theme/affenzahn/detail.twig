@@ -11,7 +11,8 @@
              data-storeid ="{{ customerAddress.storeId }}"
              data-latitude = "{{ customerAddress.latitude }}"
              data-longitude = "{{ customerAddress.longitude }}"
-             data-zoomlevel = "14">
+             data-zoomlevel = "14"
+             data-search-url="/{{ url_path_prefix }}/storefinder/search">
         </div>
 
         <div class="container center">
@@ -99,7 +100,7 @@
                 </div>
             </div>
 
-            <a href="{{ backUrl }}">
+            <a href="/{{ url_path_prefix }}/storefinder{{ queryString }}">
                 {{ 'storefinder.back' | trans }}
             </a>
         </div>

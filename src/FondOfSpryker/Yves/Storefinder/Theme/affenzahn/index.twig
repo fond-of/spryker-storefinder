@@ -44,10 +44,13 @@
                             </li>
                         </ul>
                     </form>
-
                 </div>
             </div>
-            <div id="storefinder-map" class="storefinder-map" data-zoomlevel="2"></div>
+            <div id="storefinder-map"
+                 class="storefinder-map"
+                 data-zoomlevel="4"
+                 data-search-url="/{{ url_path_prefix }}/storefinder/search">
+            </div>
         </div>
 
         <div id="search-list">
@@ -65,7 +68,7 @@
                     <ul>
                         {% for customerAddress in customerAddresses %}
                             <li class="search-list-item">
-                                <a href="/{{ data.locale }}/storefinder/{{ customerAddress.urlKey }}{{ searchQuery }}{{ queryPageDivider }}p={{ currentPageNumber }}">
+                                <a href="/{{ url_path_prefix }}/storefinder/{{ customerAddress.urlKey }}{{ searchQuery }}{{ queryPageDivider }}p={{ currentPageNumber }}">
                                     {{ customerAddress.name }}
                                 </a>
                                 <div class="search-list-item--info">
@@ -89,7 +92,7 @@
                             <ul class="pagination">
                                 {% if currentPageNumber > 1 %}
                                     {% for pageNumber in range(currentPageNumber-nearbyPagesLimit, currentPageNumber-1) if ( pageNumber > 0 ) %}
-                                        <li><a href="/{{ data.locale }}/storefinder{{ searchQuery }}{{ queryPageDivider }}p={{ pageNumber }}">{{ pageNumber }}</a></li>
+                                        <li><a href="/{{ url_path_prefix }}/storefinder{{ searchQuery }}{{ queryPageDivider }}p={{ pageNumber }}">{{ pageNumber }}</a></li>
                                     {% endfor %}
                                 {% endif %}
 
@@ -97,7 +100,7 @@
 
                                 {% if currentPageNumber < numberOfPages %}
                                     {% for pageNumber in range(currentPageNumber+1, currentPageNumber + nearbyPagesLimit) if ( pageNumber <= numberOfPages ) %}
-                                        <li><a href="/{{ data.locale }}/storefinder{{ searchQuery }}{{ queryPageDivider }}p={{ pageNumber }}">{{ pageNumber }}</a></li>
+                                        <li><a href="/{{ url_path_prefix }}/storefinder{{ searchQuery }}{{ queryPageDivider }}p={{ pageNumber }}">{{ pageNumber }}</a></li>
                                     {% endfor %}
                                 {% endif %}
                             </ul>
