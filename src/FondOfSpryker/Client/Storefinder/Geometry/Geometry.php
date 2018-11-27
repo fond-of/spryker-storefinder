@@ -60,12 +60,12 @@ class Geometry implements GeometryInterface
      */
     protected function isValidClientResponse(ResponseInterface $clientJsonResponse): bool
     {
-        if ($clientJsonResponse->getStatusCode() != 200) {
+        if ($clientJsonResponse->getStatusCode() !== 200) {
             return false;
         }
 
         $decodedClientJsonResponse = $this->jsonDecodeResponse($clientJsonResponse);
-        if (is_array($decodedClientJsonResponse) === false) {
+        if (\is_array($decodedClientJsonResponse) === false) {
             return false;
         }
 
@@ -73,7 +73,7 @@ class Geometry implements GeometryInterface
             return false;
         }
 
-        if (is_array($decodedClientJsonResponse['results']) === false) {
+        if (\is_array($decodedClientJsonResponse['results']) === false) {
             return false;
         }
 
@@ -126,6 +126,8 @@ class Geometry implements GeometryInterface
     }
 
     /**
+     * @param \Generated\Shared\Transfer\StorefinderGeometryRequestTransfer $requestTransfer
+     *
      * @return string[]
      */
     protected function createApiQuery(StorefinderGeometryRequestTransfer $requestTransfer): array

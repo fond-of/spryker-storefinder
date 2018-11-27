@@ -10,7 +10,7 @@ class StorefinderConfig extends AbstractBundleConfig
     /**
      * @return string
      */
-    public function getStorefinderElasticsearchHost()
+    public function getStorefinderElasticsearchHost(): string
     {
         return $this->get(StorefinderConstants::STOREFINDER_ELASTICSEARCH_HOST);
     }
@@ -18,7 +18,7 @@ class StorefinderConfig extends AbstractBundleConfig
     /**
      * @return string
      */
-    public function getStorefinderBrand()
+    public function getStorefinderBrand(): string
     {
         return $this->get(StorefinderConstants::STOREFINDER_BRAND);
     }
@@ -26,7 +26,7 @@ class StorefinderConfig extends AbstractBundleConfig
     /**
      * @return string
      */
-    public function getStorefinderGoogleApiKey()
+    public function getStorefinderGoogleApiKey(): string
     {
         return $this->get(StorefinderConstants::STOREFINDER_GOOGLE_API_KEY);
     }

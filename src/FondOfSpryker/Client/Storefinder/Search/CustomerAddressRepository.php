@@ -174,13 +174,13 @@ class CustomerAddressRepository
         }
 
         // pagination
-        if (is_int($requestTransfer->getLimit())) {
+        if (\is_int($requestTransfer->getLimit())) {
             $params['size'] = $requestTransfer->getLimit();
         } else {
             $params['size'] = $this->getClient()->count($params)['count'];
         }
 
-        if (is_int($requestTransfer->getLimitStart())) {
+        if (\is_int($requestTransfer->getLimitStart())) {
             $params['from'] = $requestTransfer->getLimitStart();
         } else {
             $params['from'] = 0;

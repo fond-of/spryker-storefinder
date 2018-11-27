@@ -10,6 +10,7 @@ use SprykerShop\Yves\ShopRouter\Generator\UrlGenerator;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * @method \FondOfSpryker\Yves\Storefinder\StorefinderFactory getFactory()
@@ -22,7 +23,7 @@ class IndexController extends AbstractController
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function indexAction(Request $request)
+    public function indexAction(Request $request): Response
     {
         $storefinderSearchRequest = $this->createStorefinderSearchRequestBy($request);
         $storefinderSearchRequest->setLimit($this->getNumberOfResultsPerPage());
@@ -48,7 +49,7 @@ class IndexController extends AbstractController
      *
      * @return array|\Symfony\Component\HttpFoundation\JsonResponse
      */
-    public function searchAction(Request $request)
+    public function searchAction(Request $request): Response
     {
         $storefinderSearchRequest = $this->createStorefinderSearchRequestBy($request);
 
@@ -56,7 +57,7 @@ class IndexController extends AbstractController
 
         $data = [];
         foreach ($storefinderResponseTransfer->getResult() as $storefinderCustomerAddressTransfer) {
-            array_push($data, $this->createMarkerResultRowFor($storefinderCustomerAddressTransfer, $request));
+            $data[] = $this->createMarkerResultRowFor($storefinderCustomerAddressTransfer, $request);
         }
 
         return new JsonResponse($data);
@@ -67,7 +68,7 @@ class IndexController extends AbstractController
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function detailAction(Request $request)
+    public function detailAction(Request $request): Response
     {
         $urlKey = $this->getUrlKeyFragment($request->getPathInfo());
         $customerAddressTransfer = $this->getClient()->findOneByUrlKey($urlKey);
@@ -145,7 +146,7 @@ class IndexController extends AbstractController
     protected function isFromExternalSource(Request $request): bool
     {
         $referer = $request->server->get('HTTP_REFERER');
-        if (!is_string($referer) || $referer == '') {
+        if (!\is_string($referer) || $referer === '') {
             return true;
         }
 
@@ -176,16 +177,16 @@ class IndexController extends AbstractController
         $query = [];
 
         $zipCode = $request->get('address');
-        if (is_string($zipCode) && $zipCode != '') {
+        if (\is_string($zipCode) && $zipCode !== '') {
             $query[] = 'address=' . $zipCode;
         }
 
         $countryCode = $request->get('country');
-        if (is_string($countryCode) && $countryCode != '') {
+        if (\is_string($countryCode) && $countryCode !== '') {
             $query[] = 'country=' . $countryCode;
         }
 
-        if (count($query) == 0) {
+        if (count($query) === 0) {
             return '';
         }
 
@@ -199,7 +200,7 @@ class IndexController extends AbstractController
      */
     protected function getNumberOfPages(int $totalCustomerAddresses): int
     {
-        if ($totalCustomerAddresses == 0) {
+        if ($totalCustomerAddresses === 0) {
             return 1;
         }
 

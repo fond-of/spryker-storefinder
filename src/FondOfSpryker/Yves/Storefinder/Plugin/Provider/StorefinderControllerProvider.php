@@ -7,9 +7,9 @@ use SprykerShop\Yves\ShopApplication\Plugin\Provider\AbstractYvesControllerProvi
 
 class StorefinderControllerProvider extends AbstractYvesControllerProvider
 {
-    const STOREFINDER_INDEX = 'storefinder-index';
-    const STOREFINDER_DETAIL = 'storefinder-detail';
-    const STOREFINDER_SEARCH = 'storefinder-search';
+    public const STOREFINDER_INDEX = 'storefinder-index';
+    public const STOREFINDER_DETAIL = 'storefinder-detail';
+    public const STOREFINDER_SEARCH = 'storefinder-search';
 
     /**
      * @param \Silex\Application $app

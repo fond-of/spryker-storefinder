@@ -47,7 +47,7 @@ class ResponseToTransferMapper implements ResponseToTransferMapperInterface
     /**
      * @param string[] $elasticsearchResponse
      *
-     * @return bool
+     * @return int
      */
     protected function getTotal(array $elasticsearchResponse): int
     {
@@ -110,7 +110,7 @@ class ResponseToTransferMapper implements ResponseToTransferMapperInterface
         $customerAddressTransfer = $this->createStorefinderCustomerAddressTransfer();
 
         $name = $this->getValue('storename', $hit);
-        if (!is_string($name) || $name === '') {
+        if (!\is_string($name) || $name === '') {
             $name = $this->getValue('company', $hit);
         }
 
