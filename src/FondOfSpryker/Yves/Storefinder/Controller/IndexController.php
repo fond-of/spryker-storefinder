@@ -249,37 +249,9 @@ class IndexController extends AbstractController
         $glossaryStorageClient = $this->getFactory()->getGlossaryStorageClient();
         $locale = $this->getLocale();
 
-        $countries = [
-            'DE' => $glossaryStorageClient->translate('countries.iso.de', $locale),
-            'DK' => $glossaryStorageClient->translate('countries.iso.dk', $locale),
-            'FR' => $glossaryStorageClient->translate('countries.iso.fr', $locale),
-            'CH' => $glossaryStorageClient->translate('countries.iso.ch', $locale),
-            'AT' => $glossaryStorageClient->translate('countries.iso.at', $locale),
-            'BE' => $glossaryStorageClient->translate('countries.iso.be', $locale),
-            'KR' => $glossaryStorageClient->translate('countries.iso.kr', $locale),
-            'US' => $glossaryStorageClient->translate('countries.iso.us', $locale),
-            'CZ' => $glossaryStorageClient->translate('countries.iso.cz', $locale),
-            'SK' => $glossaryStorageClient->translate('countries.iso.SK', $locale),
-            'AE' => $glossaryStorageClient->translate('countries.iso.AE', $locale),
-            'SA' => $glossaryStorageClient->translate('countries.iso.SA', $locale),
-            'ES' => $glossaryStorageClient->translate('countries.iso.ES', $locale),
-            'LU' => $glossaryStorageClient->translate('countries.iso.LU', $locale),
-            'QA' => $glossaryStorageClient->translate('countries.iso.QA', $locale),
-            'TR' => $glossaryStorageClient->translate('countries.iso.TR', $locale),
-            'FI' => $glossaryStorageClient->translate('countries.iso.FI', $locale),
-            'MQ' => $glossaryStorageClient->translate('countries.iso.MQ', $locale),
-            'GL' => $glossaryStorageClient->translate('countries.iso.GL', $locale),
-            'GP' => $glossaryStorageClient->translate('countries.iso.GP', $locale),
-            'HR' => $glossaryStorageClient->translate('countries.iso.HR', $locale),
-            'IT' => $glossaryStorageClient->translate('countries.iso.IT', $locale),
-            'LV' => $glossaryStorageClient->translate('countries.iso.LV', $locale),
-            'PL' => $glossaryStorageClient->translate('countries.iso.PL', $locale),
-            'RO' => $glossaryStorageClient->translate('countries.iso.RO', $locale),
-            'RU' => $glossaryStorageClient->translate('countries.iso.RU', $locale),
-            'SI' => $glossaryStorageClient->translate('countries.iso.SI', $locale),
-        ];
+        $countries = $this->getFactory()->getStorefinderConfig()->getCountries();
 
-        $collator = new Collator($locale);
+        $collator = $this->getFactory()->createCollator($locale);
         $collator->asort($countries, Collator::SORT_STRING);
 
         return $countries;

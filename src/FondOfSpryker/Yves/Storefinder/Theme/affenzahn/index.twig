@@ -19,7 +19,7 @@
                                     <select data-placeholder="{{ 'storefinder.country' | trans }}" id="storefinder-filter-form-input-country storefinder-country" name="country" title="{{ 'storefinder.country' | trans }}">
                                         <option value="">{{ 'storefinder.country-select' | trans }}</option>
                                         {% for countryCode,countryName in countries %}
-                                            <option value="{{ countryCode }}"{% if selectedCountry == countryCode %} selected="selected"{% endif %}>{{ countryName }}</option>
+                                            <option value="{{ countryCode }}"{% if selectedCountry == countryCode %} selected="selected"{% endif %}>{{ countryName | trans }}</option>
                                         {% endfor %}
                                     </select>
                                 </div>
