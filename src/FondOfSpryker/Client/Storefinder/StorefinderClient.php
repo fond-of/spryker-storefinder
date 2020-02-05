@@ -25,7 +25,7 @@ class StorefinderClient extends AbstractClient implements StorefinderClientInter
     /**
      * @param string $urlKey
      *
-     * @return null|\Generated\Shared\Transfer\StorefinderSearchResponseTransfer
+     * @return \Generated\Shared\Transfer\StorefinderSearchResponseTransfer|null
      */
     public function findOneByUrlKey(string $urlKey): ?StorefinderCustomerAddressTransfer
     {

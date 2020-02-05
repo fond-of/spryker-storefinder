@@ -65,7 +65,7 @@ class Geometry implements GeometryInterface
         }
 
         $decodedClientJsonResponse = $this->jsonDecodeResponse($clientJsonResponse);
-        if (\is_array($decodedClientJsonResponse) === false) {
+        if (is_array($decodedClientJsonResponse) === false) {
             return false;
         }
 
@@ -73,7 +73,7 @@ class Geometry implements GeometryInterface
             return false;
         }
 
-        if (\is_array($decodedClientJsonResponse['results']) === false) {
+        if (is_array($decodedClientJsonResponse['results']) === false) {
             return false;
         }
 

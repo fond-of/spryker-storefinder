@@ -146,7 +146,7 @@ class IndexController extends AbstractController
     protected function isFromExternalSource(Request $request): bool
     {
         $referer = $request->server->get('HTTP_REFERER');
-        if (!\is_string($referer) || $referer === '') {
+        if (!is_string($referer) || $referer === '') {
             return true;
         }
 
@@ -177,12 +177,12 @@ class IndexController extends AbstractController
         $query = [];
 
         $zipCode = $request->get('address');
-        if (\is_string($zipCode) && $zipCode !== '') {
+        if (is_string($zipCode) && $zipCode !== '') {
             $query[] = 'address=' . $zipCode;
         }
 
         $countryCode = $request->get('country');
-        if (\is_string($countryCode) && $countryCode !== '') {
+        if (is_string($countryCode) && $countryCode !== '') {
             $query[] = 'country=' . $countryCode;
         }
 

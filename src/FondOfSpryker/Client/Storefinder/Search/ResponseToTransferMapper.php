@@ -89,7 +89,7 @@ class ResponseToTransferMapper implements ResponseToTransferMapperInterface
      * @param string $name
      * @param string[] $hit
      *
-     * @return string
+     * @return string|null
      */
     protected function getValue(string $name, array $hit): ?string
     {
@@ -110,7 +110,7 @@ class ResponseToTransferMapper implements ResponseToTransferMapperInterface
         $customerAddressTransfer = $this->createStorefinderCustomerAddressTransfer();
 
         $name = $this->getValue('storename', $hit);
-        if (!\is_string($name) || $name === '') {
+        if (!is_string($name) || $name === '') {
             $name = $this->getValue('company', $hit);
         }
 

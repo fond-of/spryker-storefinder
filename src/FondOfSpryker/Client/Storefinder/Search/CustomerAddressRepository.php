@@ -81,7 +81,7 @@ class CustomerAddressRepository
     /**
      * @param string $urlKey
      *
-     * @return null|\Generated\Shared\Transfer\StorefinderCustomerAddressTransfer
+     * @return \Generated\Shared\Transfer\StorefinderCustomerAddressTransfer|null
      */
     public function findOneByUrlKey(string $urlKey): ?StorefinderCustomerAddressTransfer
     {
@@ -174,13 +174,13 @@ class CustomerAddressRepository
         }
 
         // pagination
-        if (\is_int($requestTransfer->getLimit())) {
+        if (is_int($requestTransfer->getLimit())) {
             $params['size'] = $requestTransfer->getLimit();
         } else {
             $params['size'] = $this->getClient()->count($params)['count'];
         }
 
-        if (\is_int($requestTransfer->getLimitStart())) {
+        if (is_int($requestTransfer->getLimitStart())) {
             $params['from'] = $requestTransfer->getLimitStart();
         } else {
             $params['from'] = 0;
