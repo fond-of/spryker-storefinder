@@ -5,6 +5,12 @@ namespace FondOfSpryker\Yves\Storefinder\Plugin\Provider;
 use Silex\Application;
 use SprykerShop\Yves\ShopApplication\Plugin\Provider\AbstractYvesControllerProvider;
 
+/**
+ * Class StorefinderControllerProvider
+ *
+ * @package FondOfSpryker\Yves\Storefinder\Plugin\Provider
+ * @deprecated use FondOfSpryker\Yves\Storefinder\Plugin\Router\StorefinderRouteProviderPlugin instead
+ */
 class StorefinderControllerProvider extends AbstractYvesControllerProvider
 {
     public const STOREFINDER_INDEX = 'storefinder-index';

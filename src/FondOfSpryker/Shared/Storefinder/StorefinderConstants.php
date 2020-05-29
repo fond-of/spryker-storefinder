@@ -8,4 +8,8 @@ interface StorefinderConstants
     public const STOREFINDER_BRAND = 'STOREFINDER_BRAND';
     public const STOREFINDER_GOOGLE_API_KEY = 'STOREFINDER_GOOGLE_API_KEY';
     public const STOREFINDER_COUNTRIES = 'STOREFINDER_COUNTRIES';
+
+    public const ROUTE_STOREFINDER_INDEX = 'storefinder-index';
+    public const ROUTE_STOREFINDER_DETAIL = 'storefinder-detail';
+    public const ROUTE_STOREFINDER_SEARCH = 'storefinder-search';
 }
